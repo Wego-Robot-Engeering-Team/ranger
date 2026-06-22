@@ -1,0 +1,34 @@
+<!-- Reusable launch file for obstacle detection -->
+<launch>
+
+  <node name="scans_merger" pkg="laser_scan_merger" exec="scans_merger_node">
+
+    <remap from="/front_scan" to="/frontS3/scan" />
+    <remap from="/rear_scan" to="/rearS3/scan" />
+    <remap from="/scan" to="/scan_filtered" />
+    
+    <param name="active"            value="true"/>
+    <param name="publish_scan"      value="true"/>
+    <param name="publish_pcl"        value="true"/>
+
+    <param name="ranges_num"        value="1000"/>
+
+    <param name="min_scanner_range" value="0.05"/>
+    <param name="max_scanner_range" value="10.0"/>
+
+    <param name="min_x_range"       value="-10.0"/>
+    <param name="max_x_range"       value="10.0"/>
+    <param name="min_y_range"       value="-10.0"/>
+    <param name="max_y_range"       value="10.0"/>
+    <param name="filter_robot_body" value="true"/>
+    <param name="body_min_x"        value="-0.50"/>
+    <param name="body_max_x"        value="0.50"/>
+    <param name="body_min_y"        value="-0.35"/>
+    <param name="body_max_y"        value="0.35"/>
+
+    <param name="fixed_frame_id"   value="base_link"/>
+    <param name="target_frame_id"   value="base_link"/>
+  </node>
+
+</launch>
+<!-- -->

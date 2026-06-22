@@ -1,0 +1,4 @@
+# Auto-generated example rule for VectorNav VN100
+# Replace ID_PATH with the value from:
+#   udevadm info -q property -n /dev/ttyUSB0 | grep ^ID_PATH=
+SUBSYSTEM=="tty", ENV{ID_PATH}=="REPLACE_WITH_ID_PATH", MODE:="0666", SYMLINK+="vn100"

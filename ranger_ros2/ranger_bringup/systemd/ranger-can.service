@@ -1,0 +1,21 @@
+[Unit]
+Description=Bring up Ranger CAN interface
+After=network-pre.target systemd-modules-load.service
+Wants=network-pre.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+# Load the common USB-CAN kernel module used by AgileX/Weston Robot examples.
+ExecStart=/usr/sbin/modprobe gs_usb
+
+# Re-create the interface cleanly on every boot/restart.
+ExecStart=-/usr/sbin/ip link set can0 down
+ExecStart=/usr/sbin/ip link set can0 up type can bitrate 500000
+
+# Bring the interface down cleanly when the service stops.
+ExecStop=-/usr/sbin/ip link set can0 down
+
+[Install]
+WantedBy=multi-user.target
