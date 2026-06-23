@@ -41,6 +41,7 @@
 #include "laser_scan_merger/scans_merger.h"
 
 #include <cmath>
+#include <limits>
 #include <vector>
 
 using namespace laser_scan_merger;
@@ -255,7 +256,7 @@ void ScansMerger::publishMessages() {
   std::vector<uint8_t> merged_points;
   builtin_interfaces::msg::Time output_stamp;
 
-  ranges.assign(p_ranges_num_, nanf("")); // Assign nan values
+  ranges.assign(p_ranges_num_, std::numeric_limits<float>::infinity());
 
   if (!front_scan_error_ && !rear_scan_error_) {
     const auto front_stamp = rclcpp::Time(front_pcl_.header.stamp);

@@ -32,10 +32,10 @@ def generate_launch_description():
     scan_mode_default = 'DenseBoost'
     filter_robot_body_default = 'true'
     motion_compensation_default = 'false'
-    body_min_x_default = '-0.50'
-    body_max_x_default = '0.50'
-    body_min_y_default = '-0.35'
-    body_max_y_default = '0.35'
+    body_min_x_default = '-0.60'
+    body_max_x_default = '0.60'
+    body_min_y_default = '-0.45'
+    body_max_y_default = '0.45'
 
     front_x = LaunchConfiguration('front_x')
     front_y = LaunchConfiguration('front_y')
@@ -118,11 +118,11 @@ def generate_launch_description():
             'motion_compensation': motion_compensation,
             'ranges_num': 1440,
             'min_scanner_range': 0.05,
-            'max_scanner_range': 10.0,
-            'min_x_range': -10.0,
-            'max_x_range': 10.0,
-            'min_y_range': -10.0,
-            'max_y_range': 10.0,
+            'max_scanner_range': 30.0,
+            'min_x_range': -30.0,
+            'max_x_range': 30.0,
+            'min_y_range': -30.0,
+            'max_y_range': 30.0,
             'filter_robot_body': filter_robot_body,
             'body_min_x': body_min_x,
             'body_max_x': body_max_x,
