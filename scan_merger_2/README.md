@@ -28,3 +28,51 @@ Even if only one laser scanner is used, the node can be useful for simple data p
 * `~target_frame_id` (`string`, default: `map`) - name of the coordinate frame used as the origin for the produced laser scan or point cloud.
 
 In the original implementation, the `~target_frame_id` is the `robot` frame. However, with a moving robot, this causes the Kalman filters later on to think that the points are moving even though the robot is moving w. r. t. the map. That's why we enhance the point cloud with "range" (distance) information in the `scans_merger` node. This means that even though the origin of the target frame does not match the lidar scan origin, we still preserve the distance of each point to the scanner that produced the point. For that reason, it is absolutely essential to run the scans through the `scans_merger` node, even if not merging scans and to set `publish_pcl` to `true`.
+
+## Project Defaults
+This repository uses the merger with the following project-specific settings from `scan_merger_2/launch/dual_s3_scan_merger.launch.py`.
+
+### Input and output topics
+- Input scans:
+  - `/frontS3/scan`
+  - `/rearS3/scan`
+- Merged scan output:
+  - `/scan_filtered`
+- Merged point cloud output:
+  - `/merged/points`
+
+### Frame setup
+- `target_frame_id`: `base_link`
+- `fixed_frame_id`: `base_link`
+- The merged `LaserScan` is published in `base_link`.
+
+### Current merger limits
+- `ranges_num`: `1440`
+- `min_scanner_range`: `0.05 m`
+- `max_scanner_range`: `30.0 m`
+- `min_x_range` / `max_x_range`: `-30.0 m` / `30.0 m`
+- `min_y_range` / `max_y_range`: `-30.0 m` / `30.0 m`
+
+### Robot body filter
+`filter_robot_body` is enabled and removes points inside the following rectangle in the `base_link` frame:
+- `x`: `-0.60 m ~ 0.60 m`
+- `y`: `-0.45 m ~ 0.45 m`
+
+### Runtime behavior
+- Empty beams in the merged scan are published as `+Inf`, not `NaN`.
+- Points outside the XY bounds or outside the scanner range limits are discarded.
+- The body-filter rectangle is applied after those range and XY bounds checks.
+
+### Nav2 usage in this repository
+`/scan_filtered` is used by:
+- `amcl`
+- `local_costmap`
+- `global_costmap`
+
+Current costmap usage limits are separate from the merger limits:
+- `local_costmap`
+  - `obstacle_max_range`: `8.0 m`
+  - `raytrace_max_range`: `10.0 m`
+- `global_costmap`
+  - `obstacle_max_range`: `18.0 m`
+  - `raytrace_max_range`: `20.0 m`
