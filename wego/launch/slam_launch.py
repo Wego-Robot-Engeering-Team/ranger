@@ -35,13 +35,6 @@ def generate_launch_description():
         description='slam_toolbox parameter file'
     )
 
-    teleop_bringup = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(str(wego_base_path / 'launch/teleop_launch.py')),
-        launch_arguments={
-            'gui': 'false',
-        }.items()
-    )
-
     slam_toolbox_bringup = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             str(slam_toolbox_base_path / 'launch/online_async_launch.py')),
@@ -65,7 +58,6 @@ def generate_launch_description():
         rviz_config_arg,
         use_sim_time_arg,
         slam_params_file_arg,
-        teleop_bringup,
         slam_toolbox_bringup,
         rviz_node,
     ])
